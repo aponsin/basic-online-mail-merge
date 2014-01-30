@@ -24,8 +24,8 @@ BasicOnlineMailMerge::Application.configure do
   :address              => "in.mailjet.com",
   :port                 => 587,
   :domain               => 'something.com',
-  :user_name            => '158f32fd138aab80f6d4cba56b70140c',
-  :password             => '9eb9fdd30eb2890c6f941f749234d0a5',
+  :user_name            => ENV['MAIL_JET_USERNAME'],
+  :password             => ENV['MAIL_JET_PASSWORD'],
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
 

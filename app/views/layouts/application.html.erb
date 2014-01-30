@@ -7,12 +7,14 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if flash.count > 0 %>
   <div class="alert-flash">
     <%= link_to "x", "#", style: "float: right; margin-top: 0px; margin-right: 6px; text-decoration; text-decoration: none; z-index:100; position: relative; color:white;", onclick: "$('.alert-flash').hide(); return false;" %>
     <% flash.each do |key, value| %>
       <%= content_tag(:p, value, :class => "#{key}") %>
     <% end %>
   </div>
+  <% end %>
 
 <%= yield %>
 
