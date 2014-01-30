@@ -16,6 +16,19 @@ BasicOnlineMailMerge::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.smtp_settings = {
+  :address              => "in.mailjet.com",
+  :port                 => 587,
+  :domain               => 'something.com',
+  :user_name            => '158f32fd138aab80f6d4cba56b70140c',
+  :password             => '9eb9fdd30eb2890c6f941f749234d0a5',
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 

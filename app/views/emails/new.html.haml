@@ -1,0 +1,61 @@
+= form_for @email do |f|
+
+  = form_error_messages!(@email)
+
+  .group
+    = f.label "Titre de la campaign"
+    = f.text_field :campaign, placeholder: "Rentrer un nom unique pour retrouver les stats sur Mailjet", class: "jqte-test inac"
+
+  .group
+    = f.label "From du mailing"
+    = f.text_field :from_name, placeholder: "Nom de la personne qui envoit le mailing: John Doe", class: "jqte-test inac"
+
+  .group
+    = f.label "From du mailing"
+    = f.text_field :from_email, placeholder: "Email de la personne qui envoit le mailing: john@doe.com", class: "jqte-test inac"
+
+  .group
+    = f.label "Liste des contacts (CSV)"
+    = f.text_area :contacts, placeholder: "Liste de contact en CSV avec entete", class: "jqte-test inac", style: "height: 100px"
+
+  .group
+    = f.label "Sujet de l'email"
+    = f.text_field :subject, placeholder: "Donner le sujet de votre email", class: "jqte-test inac"
+
+  .group
+    = f.label "TO de l'email"
+    = f.text_field :to, placeholder: "destinataire de l'email, example: {{email}}", class: "jqte-test inac"
+
+  .group
+    = f.label "CC de l'email"
+    = f.text_field :cc, placeholder: "CC de l'email, vide par defaut", class: "jqte-test inac"
+
+  .group
+    = f.label "BCC de l'email"
+    = f.text_field :bcc, placeholder: "BCC de l'email, vide par defaut", class: "jqte-test inac"
+
+  .group
+    = f.label "Corps de l'email"
+    = f.text_area :body, class: "jqte-test active", style: "height: 500px"
+
+  .submit
+    = f.submit "Send"
+
+  .instructions
+    %p
+      Assuming a CSV contacts file as follow:
+      %ul
+        %li Name,Email
+        %li John Doe, john@doe.com
+        %li Jane Doe, jane@doe.com
+    %p
+      The following variables are available in all fields of the mailing:
+
+      %ul
+        %li {{name}} : will match whatever value in the column that has a header of "name" (case insensitive)
+        %li {{email}} : will match whatever value in the column that has a header of "email" (case insensitive)
+        %li {{col1}} : will match whatever value in the column #1 (case insensitive)
+        %li {{col2}} : will match whatever value in the column #2 (case insensitive)
+
+:javascript
+  $('.jqte-test.active').jqte({"status" : true})

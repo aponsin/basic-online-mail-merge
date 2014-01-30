@@ -20,6 +20,19 @@ BasicOnlineMailMerge::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.action_mailer.smtp_settings = {
+  :address              => "in.mailjet.com",
+  :port                 => 587,
+  :domain               => 'something.com',
+  :user_name            => '158f32fd138aab80f6d4cba56b70140c',
+  :password             => '9eb9fdd30eb2890c6f941f749234d0a5',
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
