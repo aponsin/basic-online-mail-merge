@@ -11,21 +11,23 @@ class EmailsController < ApplicationController
     if @email.valid?
 
       @header, *data = CSV.parse(@email.contacts)
+      @header.map!(&:strip)
+      data.map!{|f| f.map(&:strip) }
       @col_header = (1..@header.count).map{|i| "col#{i}"}
 
       data.each do |fields|
 
-          email = {
-            campaign: @email.campaign,
-            subject:  insert_dynamic_fields(@email.subject, fields),
-            from:     "#{insert_dynamic_fields(@email.from_name, fields)} <#{insert_dynamic_fields(@email.from_email, fields)}>",
-            to:       insert_dynamic_fields(@email.to, fields),
-            cc:       insert_dynamic_fields(@email.cc, fields),
-            bcc:      insert_dynamic_fields(@email.bcc, fields),
-            body:     insert_dynamic_fields(@email.body, fields)
-          }
+        email = {
+          campaign: @email.campaign,
+          subject:  insert_dynamic_fields(@email.subject, fields),
+          from:     "#{insert_dynamic_fields(@email.from_name, fields)} <#{insert_dynamic_fields(@email.from_email, fields)}>",
+          to:       insert_dynamic_fields(@email.to, fields),
+          cc:       insert_dynamic_fields(@email.cc, fields),
+          bcc:      insert_dynamic_fields(@email.bcc, fields),
+          body:     insert_dynamic_fields(@email.body, fields)
+        }
 
-          ApplicationMailer.email(OpenStruct.new(email)).deliver
+        ApplicationMailer.email(OpenStruct.new(email)).deliver
       end
 
       flash[:sucess] = "#{data.count} email were sent through mailjet for campaign '#{@email.campaign}'"
@@ -39,13 +41,14 @@ class EmailsController < ApplicationController
   private
 
   def insert_dynamic_fields(string, fields)
+    replaced_field = string.dup
     @header.each_with_index do |h, i|
-      string.gsub!(/\{\{#{Regexp.escape(h.downcase)}\}\}/i, fields[i])
+      replaced_field.gsub!(/\{\{#{Regexp.escape(h.downcase)}\}\}/i, fields[i])
     end
     @col_header.each_with_index do |h, i|
-      string.gsub!(/\{\{#{Regexp.escape(h.downcase)}\}\}/i, fields[i])
+      replaced_field.gsub!(/\{\{#{Regexp.escape(h.downcase)}\}\}/i, fields[i])
     end
-    string
+    replaced_field
   end
 
 end
