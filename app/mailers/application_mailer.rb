@@ -6,7 +6,6 @@ class ApplicationMailer < ActionMailer::Base
 
     headers({
       'X-No-Spam'                     => 'True',
-      'X-Mailjet-DeduplicateCampaign' => 'True',
       'X-Mailjet-Campaign'            => email.campaign
     })
 
